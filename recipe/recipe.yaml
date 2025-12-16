@@ -1,5 +1,5 @@
 context:
-  version: "2.0.8"
+  version: "2.0.9"
 
 package:
   name: berglas
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/GoogleCloudPlatform/berglas/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 1765994e212c0281b215aabae3ec95eef2894a6bfa99f5434db4bf6814c0c940
+  sha256: c6a7cd7ed4322ff4277b5d0b4e19ad1449d48f37051a5a2fa5415f274b247dd8
 
 build:
   number: 0
@@ -15,15 +15,15 @@ build:
     - if: unix
       then:
         - go build -ldflags="-s -w -X github.com/GoogleCloudPlatform/berglas/v2/internal/version.name=berglas -X github.com/GoogleCloudPlatform/berglas/v2/internal/version.version=${{ version }}" -o $PREFIX/bin/berglas
+        - if: target_platform == build_platform
+          then:
+            - mkdir -p $PREFIX/share/bash-completion/completions
+            - $PREFIX/bin/berglas completion bash > $PREFIX/share/bash-completion/completions/berglas
+            - mkdir -p $PREFIX/share/zsh/site-functions
+            - $PREFIX/bin/berglas completion zsh > $PREFIX/share/zsh/site-functions/_berglas
+
       else:
         - go build -ldflags="-s -w -X github.com/GoogleCloudPlatform/berglas/v2/internal/version.name=berglas -X github.com/GoogleCloudPlatform/berglas/v2/internal/version.version=${{ version }}" -o %PREFIX%/bin/berglas.exe
-    - if: unix and target_platform == build_platform
-      then:
-        - mkdir -p $PREFIX/share/bash-completion/completions
-        - $PREFIX/bin/berglas completion bash > $PREFIX/share/bash-completion/completions/berglas
-        - mkdir -p $PREFIX/share/zsh/site-functions
-        - $PREFIX/bin/berglas completion zsh > $PREFIX/share/zsh/site-functions/_berglas
-
     - go-licenses save --save_path ${{ "$SRC_DIR" if unix else "%SRC_DIR%" }}/license-files .
 
 requirements:
