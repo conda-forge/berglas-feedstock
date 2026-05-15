@@ -1,5 +1,5 @@
 context:
-  version: "2.0.12"
+  version: "2.0.13"
 
 package:
   name: berglas
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/GoogleCloudPlatform/berglas/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 4a26855a5862c8a28626b1758811ed5acf3b8e18368f3fc37e43334a25694f6f
+  sha256: ea78f41bcbea5abd5446fc5c03863057bc6eb3484ff7ba55cf085d32b1e95672
 
 build:
   number: 0
